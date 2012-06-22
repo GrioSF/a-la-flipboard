@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Grio Flipboard</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+		
+		<link rel="stylesheet" href="css/flip.css" />
+		<script src="js/flip.js"></script>
+		<style>
+			#flipblog > div {
+				float: left;
+				position: absolute;
+			}
+			.container {
+			}
+			.controls {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				text-align: center;
+			}
+			.controls button {
+				width: 100px;
+			}
+			.img-container {
+				background-color: #FFF;
+				position: relative;
+			}
+			.img-container img {
+				position: relative;
+			}
+			.haiku {
+				position: absolute;
+				font-family: Courier;
+				font-weight: bold;
+				bottom: 0;
+				right: 0;
+				text-align: right;
+				padding-right: 20px;
+				padding-bottom: 20px;
+				padding-left: 10px;
+				font-size: 14px;
+				white-space: nowrap;
+				background-color:rgba(255,255,255,0.5);
+			}
+		</style>
+	</head>
+	<body>
+	 		<script type="text/javascript">
+			var FS = {};
+			FS.flipSet = null;
+
+			$("#flipblog").live("pageinit", function() {
+				console.log("pageinit");
+				var images = [
+				"img/team/nobu.png",
+				"img/team/adam.png",
+				"img/team/meg.png",
+				"img/team/lou.png",
+				"img/team/martin.png",
+				"img/team/peter.png",
+				"img/team/santo.png",
+				"img/team/eric.png",
+				"img/team/doug.png",
+				"img/team/alberto.png",
+				"img/team/andrew.png",
+				"img/team/carolina.png",
+				"img/team/giuseppe.png",
+				"img/team/john.png",
+				"img/team/brad.png"
+				];
+				var haikus = [
+				"<p>golden carp sits still<br/>awaiting worm in ambush<br/>silently typing</p>",
+				"<p>Platypus and roo<br/>are just bits between this red<br/>blooded aussie's teeth</p>",
+				"<p>Arrogant men fear<br/>antimatter's punishing<br/>words. Her laugh chills birds</p>",
+				"<p>Dense Half Moon Bay Fog<br/>Finally justifies your<br/>sporting that trench coat</p>",
+				"<p>You mixed escargot<br />Vin rouge, pommes frites and foie gras<br />Terrible idea</p>",
+				"<p>Always making laughs</br>While stroking the little beard<br/>Do the jests grow there?</p>",
+				"<p>His yell wakes us up<br/>Our techno visionary<br/>loves his pearl tea sweet</p>",
+				"<p>The gentle giant<br/>piles massive stones of code while<br/>his little dog barks</p>",
+				"<p>Chanting and dancing<br/>feathers shuffling to drum beats<br/>making business rain</p>",
+				"<p>Programming for the<br/>web is somewhat like baking<br/>sicilian pizza</p>",
+				"<p>Why don't you complain?<br/>Toes on Andrew's feet, bruised<br/>cold, tired without shoes</p>",
+				"<p>You started today</br>What things can I say about<br/>you? Only welcome</p>",
+				"<p>You taught us what time<br/>was right for cappucino.<br/>This lie made us weep.</p>",
+				"<p>Masticating snacks<br/>while headphones smash punk rock sounds<br/>into fragile ears</p>",
+				"<p>wrote lots of Haikus<br/>when he should have been working<br/>probably was drunk</p>"];
+
+				var nodes = new Array();
+				var $node;
+				var $img;
+				var $haiku;
+				for(var i = 0; i < images.length; i++) {
+					$node = $("<div class=\"img-container\"/>");
+					$img = $("<img src=\"" + images[i] + "\"/>");
+
+					$node.append($img);
+
+					if(i < haikus.length) {
+						$node.append("<div class=\"haiku\">" + haikus[i] + "</div>");
+					}
+
+					nodes[i] = $node;
+				}
+  				
+  				// Look for the type of browser
+  				// If mobile use the $(window).height()
+  				// Otherwise set arbitrary height to 350.
+				var windowHeight = 350;
+				
+				var mobile = (/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase()));
+				var chrome = (/chrome/i.test(navigator.userAgent.toLowerCase()));
+				console.log(navigator.userAgent);
+				
+				if (!mobile && !chrome) {
+					$("#flipblog").append("<div>Browser not supported</div>");
+				}
+				
+				if (mobile) {  
+					windowHeight = $(window).height();
+			    }  
+				FS.flipSet = new FlipSet($(".container"), windowHeight, nodes, mobile);
+
+				FS.callbackMethod = function() {
+					$("#btn-previous").attr("disabled", !FS.flipSet.hasPrevious());
+					$("#btn-next").attr("disabled", !FS.flipSet.hasNext());
+				};
+
+				$("#btn-previous").click(function() {
+					FS.flipSet.previous(FS.callbackMethod);
+				});
+				$("#btn-next").click(function() {
+					FS.flipSet.next(FS.callbackMethod);
+				});
+
+				FS.callbackMethod();
+				
+				$("#flipblog").page();
+			});
+
+		</script>	
+		
+		<div id="flipblog" data-role="page" data-title="Flipblog">
+			<div class="container"></div>
+			<div class="controls">
+				<button id="btn-previous" data-inline="true">
+					Previous
+				</button>
+				<button id="btn-next" data-inline="true">
+					Next
+				</button>
+			</div>
+			</div>
+		</div><!-- /page -->
+	</body>
+</html>

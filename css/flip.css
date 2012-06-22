@@ -1,0 +1,57 @@
+.flip-set {
+	position: absolute;
+	-webkit-perspective: 1000;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform: translateZ(0);
+	-moz-transform-style: preserve-3d;
+	-moz-transform: translateZ(0);
+}
+.flip-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.flip-top-container, .flip-bottom-container, .flip-bottom-inner-container {
+	position: relative;
+	overflow: hidden;
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	-moz-transform-style: preserve-3d;
+	-moz-backface-visibility: hidden;
+}
+.flip-transitionable {
+	-webkit-transition-timing-function: linear;
+	-webkit-transition-property: -webkit-transform;
+	-webkit-transition-duration: .3s;
+	-moz-transition-timing-function: linear;
+	-moz-transition-property: -moz-transform;
+	-moz-transition-duration: .3s;
+}
+.flip-top-container {
+	top: 0;
+	-webkit-transform-origin: 50% 100%;
+	-moz-transform-origin: 50% 100%;
+}
+.flip-bottom-container {
+	bottom: 0;
+	-webkit-transform-origin: 50% 0%;
+	-moz-transform-origin: 50% 0%;
+}
+.folded-top .flip-bottom-container {
+	-webkit-transform: rotateX(90deg);
+	-moz-transform: rotateX(90deg);
+}
+.folded-bottom .flip-top-container {
+	-webkit-transform: rotateX(-90deg);
+	-moz-transform: rotateX(-90deg);
+}
+.debug .folded-top .flip-bottom-container {
+	outline: solid 1px red;
+}
+.debug .folded-top .flip-top-container {
+	outline: solid 1px blue;
+}
+.debug .flip-transitionable {
+	-webkit-transition-duration: .6s;
+	-moz-transition-duration: .6s;
+}
